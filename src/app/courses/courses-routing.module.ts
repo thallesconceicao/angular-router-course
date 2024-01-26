@@ -17,6 +17,9 @@ const routes: Routes = [
   {
     path: ":courseUrl",
     component: CourseComponent,
+    resolve: {
+      course: CourseResolver
+    },
     children: [
       {
         path: "",
@@ -32,10 +35,7 @@ const routes: Routes = [
           lesson: LessonDetailResolver
         }
       }
-    ],
-    resolve: {
-      course: CourseResolver
-    }
+    ]
   }
 ];
 
@@ -44,11 +44,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [RouterModule],
-  providers: [
-    CourseResolver,
-    LessonsResolver,
-    LessonDetailResolver
-  ]
+  providers: []
 })
 export class CoursesRoutingModule {
 

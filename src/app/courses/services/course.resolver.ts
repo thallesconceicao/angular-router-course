@@ -1,20 +1,15 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { inject } from "@angular/core";
+import { ActivatedRouteSnapshot, RouterStateSnapshot, ResolveFn } from "@angular/router";
 import { Course } from "../model/course";
 import { CoursesService } from "./courses.service";
 import { Observable } from "rxjs";
 
-@Injectable()
-export class CourseResolver implements Resolve<Course>{
+export const CourseResolver: ResolveFn<Course> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Course> => {
+ 
+    const coursesService = inject(CoursesService);
 
-    constructor(private coursesService: CoursesService){}
+    const courseUrl = route.paramMap.get("courseUrl");
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Course | Observable<Course> | Promise<Course> {
-        
-        const courseUrl = route.paramMap.get("courseUrl");
-
-        return this.coursesService.loadCourseByUrl(courseUrl);
-
-    }
+    return coursesService.loadCourseByUrl(courseUrl);   
 
 }
